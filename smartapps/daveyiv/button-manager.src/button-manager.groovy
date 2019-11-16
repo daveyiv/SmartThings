@@ -46,6 +46,11 @@ mappings {
       PUT: "updateSwitch"
     ]
   }
+  path("/switches/:switchname/:command/:value") {
+    action: [
+      PUT: "updateSwitch"
+    ]
+  }
 }
 
 def listSwitches() {
@@ -59,7 +64,10 @@ def listSwitches() {
 def switchCommand(switchname, command) {
    switches.each {
       if(it.displayName == switchname) {
-         it."$command"()      
+         if(params.value == null)
+         	it."$command"()
+         else
+            it."$command"(params.value)
       }
    }
 }
@@ -67,11 +75,18 @@ def switchCommand(switchname, command) {
 def updateSwitch() {
 	def switchname = params.switchname
     def command = params.command
+    def value = params.value
 
     switch(command) {
-    	case "$command":
+    	case "on":
             switchCommand(switchname, command)
         	break
+        case "off":
+            switchCommand(switchname, command)
+            break
+        case "setLevel":
+            switchCommand(switchname, command)
+            break
     	default:
         httpError(400, "$command is not a valid command for all switches specified")
     }
