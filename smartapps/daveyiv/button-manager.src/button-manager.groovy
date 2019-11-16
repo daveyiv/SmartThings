@@ -79,11 +79,7 @@ def updateSwitch() {
 
     switch(command) {
     	case "on":
-            switchCommand(switchname, command)
-        	break
         case "off":
-            switchCommand(switchname, command)
-            break
         case "setLevel":
             switchCommand(switchname, command)
             break
